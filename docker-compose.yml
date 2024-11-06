@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  regression:
+    image: pytest:v1  # Используем уже созданный образ
+    volumes:
+      - ./:/usr/workspace  # Примонтируйте текущую директорию в контейнер
+    command: /bin/sh -c "pytest -sv --alluredir=allure-results tests/feature_profile_test.py" # Запускаем конкретный тест
+    working_dir: /usr/workspace  # Установите рабочую директорию внутри контейнера
+    environment:
+      - LOGIN=${LOGIN}
+      - PASSWORD=${PASSWORD}
