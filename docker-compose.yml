@@ -2,13 +2,15 @@ version: '3.7'
 
 services:
   regression:
-    image: pytest:latest  # Используем уже созданный образ
+    image: pytest:latest
     volumes:
-      - "D:/Users/Max/PycharmProjects/project_ui_automation:/usr/workspace"  # Примонтируйте текущую директорию в контейнер
-      - "./allure-results:/usr/workspace/allure-results"  # Примонтируйте директорию для результатов Allure
-    command: /bin/sh -c "pytest -sv --alluredir=allure-results tests/feature_profile_test.py"  # Запускаем конкретный тест
-    working_dir: /usr/workspace  # Установите рабочую директорию внутри контейнера
+      - workspace:/usr/workspace  # Используем именованный volume для монтирования папки
+      - ./allure-results:/usr/workspace/allure-results  # Монтируем директорию для результатов Allure
+    command: /bin/sh -c "pytest -sv --alluredir=allure-results tests/feature_profile_test.py"
+    working_dir: /usr/workspace
     environment:
       - LOGIN=${LOGIN}
       - PASSWORD=${PASSWORD}
 
+volumes:
+  workspace:
